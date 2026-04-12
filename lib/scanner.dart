@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
 
 class GeminiImageProcessor extends StatefulWidget {
@@ -100,7 +101,17 @@ class _GeminiImageProcessorState extends State<GeminiImageProcessor> {
 
     for (String ingredient in ingredients) {
       if (ingredient.isNotEmpty) {
-        DateTime? expirationDate = await showDatePicker(
+        
+        final prefs = await SharedPreferences.getInstance();
+        final autoExpiration = prefs.getBool('auto_expiration') ?? false;
+        
+        if(autoExpiration) {
+          expriationDate = await_estimateExpirationDate(ingredient);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('using AI estimate for "$ingredient"')),
+        );
+        } else {  
+        expirationDate = await showDatePicker(  
           context: context,
           initialDate: DateTime.now(),
           firstDate: DateTime.now().subtract(const Duration(days: 1)),
@@ -115,6 +126,7 @@ class _GeminiImageProcessorState extends State<GeminiImageProcessor> {
             SnackBar(content: Text('no date selected for "$ingredient" – using AI estimate.')),
           );
         }
+      }  
 
         _expirationDates[ingredient] = expirationDate;
 

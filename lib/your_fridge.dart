@@ -285,7 +285,7 @@ class _GenerateRecipesState extends State<GenerateRecipes> {
     print("in input");
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => const HomePage(initialTab: 4)),
+      MaterialPageRoute(builder: (context) => const HomePage(initialTab: 5)),
           (route) => false,
     );
   }

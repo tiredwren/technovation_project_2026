@@ -7,6 +7,7 @@ import 'package:ai_recipe_generation/navigation/bottom_nav.dart';
 import 'package:ai_recipe_generation/recipe.dart';
 import 'package:ai_recipe_generation/recipes_list.dart';
 import 'package:ai_recipe_generation/scanner.dart';
+import 'package:ai_recipe_generation/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     Icons.compost,
     Icons.checklist,
     Icons.bug_report
+    Icons.settings,
   ];
 
   final List<String> _labels = [
@@ -47,6 +49,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     'scan',
     'list',
     'report',
+    'settings',
   ];
 
   List<Widget> get _pages => [
@@ -67,6 +70,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     ),
     ShoppingListPage(),
     ReportIssuePage(),
+    SettingsPage(),
     GeminiImageProcessor(),
   ];
 
