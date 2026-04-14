@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     Icons.kitchen,
     Icons.compost,
     Icons.checklist,
-    Icons.bug_report
+    Icons.bug_report,
     Icons.settings,
   ];
 

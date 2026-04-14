@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:share_preferences/share_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
     @override
@@ -37,7 +37,7 @@ class _SettingsPageState extends State <SettingsPage> {
             appBar: AppBar(
                 title: Text(
                     "s e t t i n g s",
-                    style: GoggleFonts.poppins(
+                    style: GoogleFonts.poppins(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         color: const Color(0xFF283618),
@@ -46,6 +46,27 @@ class _SettingsPageState extends State <SettingsPage> {
                 centerTitle: true,
                 backgroundColor: const Color(0xFFf1faee)
             ),
+
+            body: SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                        _buildSectionHeader('appearance'),
+                        _buildCard([
+                        _buildToggle(
+                            'dark mode',
+                            'switch to a darker color scheme',
+                            _darkMode,
+                            (val) {
+                                setState(() => _darkMode = val);
+                                _savePref('dark_mode', val);
+                },
+              ),
+            ]),
+            ]),
+            )
+
             backgroundColor: const Color(0xFFf1faee),
             body: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -67,7 +88,7 @@ class _SettingsPageState extends State <SettingsPage> {
                                 borderRadius: BorderRadius.circular(12),
                                 boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
                             ),
-                            child: SwitchListTitle(
+                            child: SwitchListTile(
                                 title: Text(
                                     "automatically set expiration dates",
                                     style: GoogleFonts.poppins(fontSize: 15),
@@ -78,7 +99,7 @@ class _SettingsPageState extends State <SettingsPage> {
                                 ),
                                 value: _autoExpiration,
                                 activeColor: const Color(0xFF606C38),
-                                onChanged: _saveAutoExpiration
+                                onChanged: _setAutoExpiration
                             ),
                         ),
                     ],
