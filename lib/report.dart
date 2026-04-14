@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ReportIssuePage extends StatefulWidget {
   @override
@@ -12,34 +14,44 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
   final _descriptionController = TextEditingController();
   final _emailController = TextEditingController();
 
-  void _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      // close the keyboard when submit is pressed
-      FocusScope.of(context).unfocus();
+void _submitForm() async {
+  if (_formKey.currentState!.validate()) {
+    FocusScope.of(context).unfocus();
 
-      // simulate a delay to mock backend action
-      await Future.delayed(Duration(seconds: 2));
-
-      print('the problem: ${_titleController.text}');
-      print('description: ${_descriptionController.text}');
-      print('email (optional): ${_emailController.text}');
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      await FirebaseFirestore.instance.collection('feedback').add({
+        'issue': _titleController.text.trim(),
+        'description': _descriptionController.text.trim(),
+        'email': _emailController.text.trim(),
+        'userId': user?.uid ?? 'anonymous',
+        'timestamp': FieldValue.serverTimestamp(),
+      });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('thanks for letting us know the issue! we will work on improving the system with your feedback!')),
+        const SnackBar(content: Text('thanks for letting us know! we\'ll work on it.')),
       );
 
-      // clear the form fields
       _titleController.clear();
       _descriptionController.clear();
       _emailController.clear();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('something went wrong: $e')),
+      );
     }
   }
+}
 
   void _cancelForm() {
     // clear the form fields and go back to the previous screen
     _titleController.clear();
     _descriptionController.clear();
     _emailController.clear();
+    FocusScope.of(context).unfocus();
+    ScaffoldMessenger.of(context)/showSnackBar(
+      const SnackBar(content: Text('report cancelled'))
+    )
   }
 
   @override
