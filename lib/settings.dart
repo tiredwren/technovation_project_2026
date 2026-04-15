@@ -19,7 +19,7 @@ class _SettingsPageState extends State < SettingsPage > {
     Future < void > _loadSettings() async {
         final prefs = await SharedPreferences.getInstance();
         setState(() {
-            _autoExpiration = prefs.getBool('auto_expiration') ? ? false;
+            _autoExpiration = prefs.getBool('auto_expiration') ?? false;
         });
     }
 
