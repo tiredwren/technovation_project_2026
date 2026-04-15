@@ -7,23 +7,23 @@ class SettingsPage extends StatefulWidget {
     _SettingsPageState createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State <SettingsPage> {
+class _SettingsPageState extends State < SettingsPage > {
     bool _autoExpiration = false;
 
     @override
     void initState() {
-    super.initState();
-    _loadSettings();
+        super.initState();
+        _loadSettings();
     }
 
-    Future<void> _loadSettings() async {
+    Future < void > _loadSettings() async {
         final prefs = await SharedPreferences.getInstance();
         setState(() {
-            _autoExpiration = prefs.getBool('auto_expiration') ?? false;
+            _autoExpiration = prefs.getBool('auto_expiration') ? ? false;
         });
     }
 
-     Future<void> _setAutoExpiration(bool value) async {
+    Future < void > _setAutoExpiration(bool value) async {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('auto_expiration', value);
         setState(() {
@@ -44,51 +44,46 @@ class _SettingsPageState extends State <SettingsPage> {
                     ),
                 ),
                 centerTitle: true,
-                backgroundColor: const Color(0xFFf1faee)
+                backgroundColor: const Color(0xFFf1faee),
             ),
-        ),
-
             backgroundColor: const Color(0xFFf1faee),
-            body: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                        Text(
-                            "expiration dates",
-                            style: GoogleFonts.poppins(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFFbc6c25),
-                            ),
-                        ),
-                        const SizedBox(height: 12),
-                        Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
-                            ),
-                            child: SwitchListTile(
-                                title: Text(
-                                    "automatically set expiration dates",
-                                    style: GoogleFonts.poppins(fontSize: 15),
+                body: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                                Text(
+                                    "expiration dates",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xFFbc6c25),
+                                    ),
                                 ),
-                                subtitle: Text(
-                                    "uses AI to estimate expiration dates when scanning - no date picker shown",
-                                    style: GoogleFonts.poppins(fontSize: 12, color: Colors.black54),
-                                ),
-                                value: _autoExpiration,
-                                activeColor: const Color(0xFF606C38),
-                                onChanged: _setAutoExpiration
-                            ),
+                                const SizedBox(height: 12),
+                                    Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(12),
+                                            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                                        ),
+                                        child: SwitchListTile(
+                                            title: Text(
+                                                "automatically set expiration dates",
+                                                style: GoogleFonts.poppins(fontSize: 15),
+                                            ),
+                                            subtitle: Text(
+                                                "uses AI to estimate expiration dates when scanning - no date picker shown",
+                                                style: GoogleFonts.poppins(fontSize: 12, color: Colors.black54),
+                                            ),
+                                            value: _autoExpiration,
+                                            activeColor: const Color(0xFF606C38),
+                                                onChanged: _setAutoExpiration,
+                                        ),
+                                    ),
+                            ],
                         ),
-                    ],
                 ),
-            );
+        );
     }
 }
-
-
-
-
