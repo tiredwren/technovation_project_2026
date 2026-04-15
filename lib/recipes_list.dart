@@ -100,7 +100,7 @@ class RecipeListPage extends StatelessWidget {
                   }
                 },
               ),
-          ),
+            ),
           );
         },
       ),

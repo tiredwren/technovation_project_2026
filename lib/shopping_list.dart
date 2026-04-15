@@ -15,6 +15,10 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
   final _firestore = FirebaseFirestore.instance;
   late final String _userId;
 
+  static const _green = Color(0xFF283618);
+  static const _lightGreen = Color(0xFF606c38);
+  static const _cream = Color(0xFFfefae0);
+
   @override
   void initState() {
     super.initState();
@@ -49,13 +53,19 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
         .collection('shoppingList')
         .add({
       'name': itemName,
-      'quantity': 1, // default quantity set to 1
+      'quantity': 1,
       'createdAt': FieldValue.serverTimestamp(),
-      'isChecked': false, // default to unchecked
+      'isChecked': false,
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('ingredient added to shopping list!')),
+      SnackBar(
+        content: Text('added to shopping list!',
+            style: GoogleFonts.poppins(color: _cream)),
+        backgroundColor: _lightGreen,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
     );
 
     _itemController.clear();
@@ -65,19 +75,22 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('item already exists'),
-        content: Text('you already have this ingredient. add to shopping list anyway?'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text('already in pantry',
+            style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
+        content: Text('you already have this ingredient. add to shopping list anyway?',
+            style: GoogleFonts.poppins(fontSize: 14)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('no'),
+            child: Text('no', style: GoogleFonts.poppins(color: Colors.grey)),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
               _addItemToShoppingList(itemName);
             },
-            child: Text('yes'),
+            child: Text('yes', style: GoogleFonts.poppins(color: _green, fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -114,7 +127,13 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
           .delete();
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('item removed from shopping list!')),
+        SnackBar(
+          content: Text('item removed!',
+              style: GoogleFonts.poppins(color: _cream)),
+          backgroundColor: _lightGreen,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -122,7 +141,6 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       );
     }
   }
-
 
   @override
   void dispose() {
@@ -139,134 +157,180 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
         .orderBy('createdAt', descending: true);
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF7F5EE), // light neutral background
       appBar: AppBar(
         title: Text(
           "s h o p p i n g   l i s t",
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.bold,
-            fontSize: 20,
-            color: const Color(0xFF283618),
+            fontSize: 22, // slightly bigger for visibility
+            color: _green,
           ),
         ),
-        centerTitle: true,),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 12),
+            // Input row
             Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _itemController,
                     decoration: InputDecoration(
-                      labelText: 'enter item',
-                      border: OutlineInputBorder(),
-                      filled: true,
-                      fillColor: Colors.white,
+                      labelText: 'Add an ingredient...',
+                      border: const OutlineInputBorder()
                     ),
                   ),
                 ),
-                SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () {
-                    final itemName = _itemController.text.trim();
-                    if (itemName.isNotEmpty) {
-                      _addItem(itemName);
-                    }
-                  },
-                  child: Text('add'),
+                const SizedBox(width: 12),
+                SizedBox(
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      final itemName = _itemController.text.trim();
+                      if (itemName.isNotEmpty) _addItem(itemName);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _green,
+                      foregroundColor: _cream,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      elevation: 2,
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    ),
+                    child: Text(
+                      'Add',
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 18),
+            // List
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: userShoppingListRef.snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    return Center(child: Text('error loading shopping list.'));
+                    return Center(
+                        child: Text('Error loading list.',
+                            style: GoogleFonts.poppins(fontSize: 16)));
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(
+                        child: CircularProgressIndicator(color: _lightGreen));
                   }
                   final items = snapshot.data!.docs;
 
                   if (items.isEmpty) {
-                    return Center(child: Text('no items in your shopping list.'));
+                    return Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.shopping_basket_outlined,
+                              size: 60, color: Colors.grey[300]),
+                          const SizedBox(height: 12),
+                          Text('Your list is empty',
+                              style: GoogleFonts.poppins(
+                                  color: Colors.grey[500], fontSize: 16)),
+                        ],
+                      ),
+                    );
                   }
 
-                  return ListView.builder(
+                  return ListView.separated(
                     itemCount: items.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 8),
                     itemBuilder: (context, index) {
                       final item = items[index];
                       final itemId = item.id;
-                      final itemName = item['name'];
-                      final quantity = item['quantity'];
-                      final isChecked = item['isChecked'];
+                      final itemName = item['name'] as String;
+                      final quantity = item['quantity'] as int;
+                      final isChecked = item['isChecked'] as bool;
 
-                      return ListTile(
-                        contentPadding: EdgeInsets.symmetric(vertical: 8.0),
-                        title: Container(
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.pink.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 2,
-                                offset: Offset(0, 2), // vertical offset of shadow
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: isChecked ? Colors.grey[100] : Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Colors.grey[300]!),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 3,
+                              offset: Offset(0, 1),
+                            )
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 6),
+                          child: Row(
+                            children: [
+                              Checkbox(
+                                value: isChecked,
+                                activeColor: _lightGreen,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4)),
+                                onChanged: (bool? newValue) {
+                                  _updateItemChecked(itemId, newValue ?? false);
+                                },
+                              ),
+                              Expanded(
+                                child: Text(
+                                  itemName,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: isChecked
+                                        ? Colors.grey[500]
+                                        : Colors.grey[900],
+                                    decoration: isChecked
+                                        ? TextDecoration.lineThrough
+                                        : null,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _qtyButton(
+                                    icon: Icons.remove,
+                                    onTap: () => _updateItemQuantity(
+                                        itemId, quantity - 1),
+                                  ),
+                                  SizedBox(
+                                    width: 32,
+                                    child: Text(
+                                      '$quantity',
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                  _qtyButton(
+                                    icon: Icons.add,
+                                    onTap: () => _updateItemQuantity(
+                                        itemId, quantity + 1),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete_outline,
+                                    color: Color(0xFFbc6c25), size: 24),
+                                onPressed: () => _deleteItem(itemId),
+                                splashRadius: 22,
                               ),
                             ],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ListTile(
-                            leading: Checkbox(
-                              value: isChecked,
-                              onChanged: (bool? newValue) {
-                                _updateItemChecked(itemId, newValue ?? false);
-                              },
-                            ),
-                            title: Text(
-                              itemName,
-                              style: TextStyle(
-                                decoration: isChecked ? TextDecoration.lineThrough : null,
-                              ),
-                            ),
-                            subtitle: Row(
-                              children: [
-                                Text(
-                                  'quantity: ',
-                                  style: TextStyle(
-                                    decoration: isChecked ? TextDecoration.lineThrough : null,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 60,
-                                  child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    controller: TextEditingController(text: '$quantity'),
-                                    decoration: InputDecoration(border: InputBorder.none),
-                                    style: TextStyle(
-                                      decoration: isChecked ? TextDecoration.lineThrough : null,
-                                      fontSize: 12,
-                                    ),
-                                    onChanged: (value) {
-                                      final qty = int.tryParse(value);
-                                      if (qty != null) {
-                                        _updateItemQuantity(itemId, qty);
-                                      }
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                            trailing: IconButton(
-                              icon: Icon(Icons.delete, color: Colors.red),
-                              onPressed: () {
-                                _deleteItem(itemId);
-                              },
-                            ),
                           ),
                         ),
                       );
@@ -275,8 +339,24 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                 },
               ),
             ),
+            const SizedBox(height: 12),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _qtyButton({required IconData icon, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 26,
+        height: 26,
+        decoration: BoxDecoration(
+          color: const Color(0xFFF0EDE4),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Icon(icon, size: 14, color: _lightGreen),
       ),
     );
   }

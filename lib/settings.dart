@@ -9,6 +9,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State <SettingsPage> {
     bool _autoExpiration = false;
+    bool _darkMode = false;
 
     @override
     void initState() {
@@ -31,9 +32,29 @@ class _SettingsPageState extends State <SettingsPage> {
         });
     }
 
+    Future<void> _savePref(String key, bool value) async {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool(key, value);
+    }
+
+    Widget _buildSectionHeader(String title) {
+        return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Text(
+                title,
+                style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFFbc6c25),
+                ),
+            ),
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
         return Scaffold(
+            backgroundColor: const Color(0xFFf1faee),
             appBar: AppBar(
                 title: Text(
                     "s e t t i n g s",
@@ -44,62 +65,70 @@ class _SettingsPageState extends State <SettingsPage> {
                     ),
                 ),
                 centerTitle: true,
-                backgroundColor: const Color(0xFFf1faee)
+                backgroundColor: const Color(0xFFf1faee),
             ),
-
             body: SingleChildScrollView(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                         _buildSectionHeader('appearance'),
-                        _buildCard([
-                        _buildToggle(
-                            'dark mode',
-                            'switch to a darker color scheme',
-                            _darkMode,
-                            (val) {
-                                setState(() => _darkMode = val);
-                                _savePref('dark_mode', val);
-                },
-              ),
-            ]),
-            ]),
-            )
 
-            backgroundColor: const Color(0xFFf1faee),
-            body: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                        Text(
-                            "expiration dates",
-                            style: GoogleFonts.poppins(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFFbc6c25),
-                            ),
-                        ),
-                        const SizedBox(height: 12),
+                        // Dark Mode SwitchListTile
                         Container(
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                                borderRadius: BorderRadius.circular(5),
+                                boxShadow: const [
+                                    BoxShadow(color: Colors.black12, blurRadius: 4)
+                                ],
+                            ),
+                            child: SwitchListTile(
+                                title: Text(
+                                    'dark mode',
+                                    style: GoogleFonts.poppins(fontSize: 18),
+                                ),
+                                subtitle: Text(
+                                    'switch to a darker color scheme',
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 16,
+                                        color: Colors.black54,
+                                    ),
+                                ),
+                                value: _darkMode,
+                                activeColor: const Color(0xFF606C38),
+                                onChanged: (val) {
+                                    setState(() => _darkMode = val);
+                                    _savePref('dark_mode', val);
+                                },
+                            ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        _buildSectionHeader('expiration dates'),
+
+                        // Auto Expiration SwitchListTile
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                                boxShadow: const [
+                                    BoxShadow(color: Colors.black12, blurRadius: 4)
+                                ],
                             ),
                             child: SwitchListTile(
                                 title: Text(
                                     "automatically set expiration dates",
-                                    style: GoogleFonts.poppins(fontSize: 15),
+                                    style: GoogleFonts.poppins(fontSize: 18),
                                 ),
                                 subtitle: Text(
-                                    "uses AI to estimate expiration dates when scanning - no date picker shown",
-                                    style: GoogleFonts.poppins(fontSize: 12, color: Colors.black54),
+                                    "uses AI to estimate expiration dates when scanning; you can change estimated dates in your fridge later",
+                                    style: GoogleFonts.poppins(fontSize: 16, color: Colors.black54),
                                 ),
                                 value: _autoExpiration,
                                 activeColor: const Color(0xFF606C38),
-                                onChanged: _setAutoExpiration
+                                onChanged: _setAutoExpiration,
                             ),
                         ),
                     ],
@@ -108,7 +137,3 @@ class _SettingsPageState extends State <SettingsPage> {
         );
     }
 }
-
-
-
-

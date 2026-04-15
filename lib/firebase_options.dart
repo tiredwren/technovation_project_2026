@@ -41,48 +41,54 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'IAzaSyBwURCJWwsrdTMEhYW_qeN5BQVU4qvw520',
-    appId: '1:267593015422:web:82138afbe0dd57749ab82f',
-    messagingSenderId: '267593015422',
-    projectId: 'technovation-2025',
-    authDomain: 'technovation-2025.firebaseapp.com',
-    storageBucket: 'technovation-2025.firebasestorage.app',
-    measurementId: 'G-FDSDFH31MY',
+    apiKey: 'AIzaSyDZPb46qEduI4Kix8XlQ99g9wmUxBk_Wb8',
+    appId: '1:721004085011:web:59cc956835134bfece64e6',
+    messagingSenderId: '721004085011',
+    projectId: 'technovation2026-4831b',
+    authDomain: 'technovation2026-4831b.firebaseapp.com',
+    databaseURL: 'https://technovation2026-4831b-default-rtdb.firebaseio.com',
+    storageBucket: 'technovation2026-4831b.firebasestorage.app',
+    measurementId: 'G-R2Z14E02VQ',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDmFYJ3z6JrNc7LO8ls3xXfU8mGOrxKDco',
-    appId: '1:267593015422:android:f572c64b84cb878c9ab82f',
-    messagingSenderId: '267593015422',
-    projectId: 'technovation-2025',
-    storageBucket: 'technovation-2025.firebasestorage.app',
+    apiKey: 'AIzaSyDyPxy7xH5Wwonr_d5kcKgak7UlHE1BL3I',
+    appId: '1:721004085011:android:5db308963ce1338dce64e6',
+    messagingSenderId: '721004085011',
+    projectId: 'technovation2026-4831b',
+    databaseURL: 'https://technovation2026-4831b-default-rtdb.firebaseio.com',
+    storageBucket: 'technovation2026-4831b.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCmq_fn1HkRYb5_YG9f837gxOk-7FKWK9E',
-    appId: '1:267593015422:ios:f2c679c4e2cfcd7f9ab82f',
-    messagingSenderId: '267593015422',
-    projectId: 'technovation-2025',
-    storageBucket: 'technovation-2025.firebasestorage.app',
+    apiKey: 'AIzaSyDYB7h2Rszv9P5JcFdqg_1Qvni1fEsDnts',
+    appId: '1:721004085011:ios:f99791a9c005a417ce64e6',
+    messagingSenderId: '721004085011',
+    projectId: 'technovation2026-4831b',
+    databaseURL: 'https://technovation2026-4831b-default-rtdb.firebaseio.com',
+    storageBucket: 'technovation2026-4831b.firebasestorage.app',
     iosBundleId: 'com.example.geminiRecipeGeneration',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCmq_fn1HkRYb5_YG9f837gxOk-7FKWK9E',
-    appId: '1:267593015422:ios:f2c679c4e2cfcd7f9ab82f',
-    messagingSenderId: '267593015422',
-    projectId: 'technovation-2025',
-    storageBucket: 'technovation-2025.firebasestorage.app',
+    apiKey: 'AIzaSyDYB7h2Rszv9P5JcFdqg_1Qvni1fEsDnts',
+    appId: '1:721004085011:ios:f99791a9c005a417ce64e6',
+    messagingSenderId: '721004085011',
+    projectId: 'technovation2026-4831b',
+    databaseURL: 'https://technovation2026-4831b-default-rtdb.firebaseio.com',
+    storageBucket: 'technovation2026-4831b.firebasestorage.app',
     iosBundleId: 'com.example.geminiRecipeGeneration',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBwURCJWwsrdTMEhYW_qeN5BQVU4qvw520',
-    appId: '1:267593015422:web:772eb9ed70eb9cf59ab82f',
-    messagingSenderId: '267593015422',
-    projectId: 'technovation-2025',
-    authDomain: 'technovation-2025.firebaseapp.com',
-    storageBucket: 'technovation-2025.firebasestorage.app',
-    measurementId: 'G-8P4N655NMF',
+    apiKey: 'AIzaSyDZPb46qEduI4Kix8XlQ99g9wmUxBk_Wb8',
+    appId: '1:721004085011:web:02e2d8ec1631735cce64e6',
+    messagingSenderId: '721004085011',
+    projectId: 'technovation2026-4831b',
+    authDomain: 'technovation2026-4831b.firebaseapp.com',
+    databaseURL: 'https://technovation2026-4831b-default-rtdb.firebaseio.com',
+    storageBucket: 'technovation2026-4831b.firebasestorage.app',
+    measurementId: 'G-TXEZ85NK9F',
   );
+
 }

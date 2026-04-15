@@ -49,9 +49,9 @@ void _submitForm() async {
     _descriptionController.clear();
     _emailController.clear();
     FocusScope.of(context).unfocus();
-    ScaffoldMessenger.of(context)/showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('report cancelled'))
-    )
+    );
   }
 
   @override

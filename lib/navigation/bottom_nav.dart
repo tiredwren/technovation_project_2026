@@ -22,7 +22,7 @@ class BottomNavigation extends StatelessWidget {
     return Container(
       color: const Color(0xFF283618),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: GNav(
           selectedIndex: selectedIndex,
           backgroundColor: const Color(0xFF283618),

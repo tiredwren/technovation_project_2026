@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "267593015422",
-    "project_id": "technovation-2025",
-    "storage_bucket": "technovation-2025.firebasestorage.app"
+    "project_number": "721004085011",
+    "firebase_url": "https://technovation2026-4831b-default-rtdb.firebaseio.com",
+    "project_id": "technovation2026-4831b",
+    "storage_bucket": "technovation2026-4831b.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:267593015422:android:f572c64b84cb878c9ab82f",
+        "mobilesdk_app_id": "1:721004085011:android:5db308963ce1338dce64e6",
         "android_client_info": {
           "package_name": "com.example.technovation_project_2025"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDmFYJ3z6JrNc7LO8ls3xXfU8mGOrxKDco"
+          "current_key": "AIzaSyDyPxy7xH5Wwonr_d5kcKgak7UlHE1BL3I"
         }
       ],
       "services": {

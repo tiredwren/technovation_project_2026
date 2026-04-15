@@ -2,6 +2,7 @@ import 'package:ai_recipe_generation/analyze.dart';
 import 'package:ai_recipe_generation/eco-scan.dart';
 import 'package:ai_recipe_generation/report.dart';
 import 'package:ai_recipe_generation/shopping_list.dart';
+import 'package:ai_recipe_generation/signup_login.dart';
 import 'package:ai_recipe_generation/your_fridge.dart';
 import 'package:ai_recipe_generation/navigation/bottom_nav.dart';
 import 'package:ai_recipe_generation/recipe.dart';
@@ -22,8 +23,13 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-void signUserOut() {
-  FirebaseAuth.instance.signOut();
+void signUserOut(BuildContext context) {
+  FirebaseAuth.instance.signOut().then((_) {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => SignupLogin()),
+          (route) => false,
+    );
+  });
 }
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
@@ -139,7 +145,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: IconButton(
-              onPressed: signUserOut,
+              onPressed: () => signUserOut(context),
               icon: const Icon(Icons.logout_rounded),
               color: const Color(0xFFfefae0),
             ),
