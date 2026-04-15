@@ -49,8 +49,8 @@ class _TrashSortingPageState extends State < TrashSortingPage > {
         );
         if (response.statusCode == 200) {
             final data = jsonDecode(response.body);
-            final text = data['candidates'][0]['content']['parts'][0]['text']
-            final clean = text.replaceAll('```json', '').replaceAll('```', '')
+            final text = data['candidates'][0]['content']['parts'][0]['text'];
+            final clean = text.replaceAll('```json', '').replaceAll('```', '');
             setState(() {
                 _result = jsonDecode(clean);
             });
@@ -75,7 +75,7 @@ Color _categoryColor(String category) {
     }
 }
 
-IconDate _categoryIcon(String category) {
+IconData _categoryIcon(String category) {
     switch (category) {
         case 'compost':
             return Icons.yard;
@@ -112,7 +112,7 @@ Widget build(BuildContext context) {
         backgroundColor: const Color(0xFFf1faee),
             body: Padding(
                 padding: const EdgeInsets.all(16.0),
-                    child: column(
+                    child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                             Text(
@@ -125,7 +125,7 @@ Widget build(BuildContext context) {
                                     decoration: InputDecoration(
                                         labelText: 'ex banana peel, plastic wrap, cardboard box',
                                         labelStyle: GoogleFonts.poppins(),
-                                        border: OutlineInputBorder(borderRadius: BorderRadius.circlular(10)),
+                                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                                         filler: true,
                                         fillColor: Colors.white,
                                     ),
@@ -168,11 +168,10 @@ Widget build(BuildContext context) {
                                                                         Text(
                                                                             _result!['category'],
                                                                             style: GoogleFonts.poppins(fontSize: 14),
-                                                                            textAligh: TextAlight.center,
+                                                                            textAlign: TextAlign.center,
                                                                         ),
                                                                         const SizedBox(height: 12),
                                                                             Container(
-                                                                                _result!['category'],
                                                                                 padding: const EdgeInsets.all(12),
                                                                                     decoration: BoxDecoration(
                                                                                         color: const Color(0xFFf1faee),
