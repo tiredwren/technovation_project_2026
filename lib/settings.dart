@@ -46,26 +46,7 @@ class _SettingsPageState extends State <SettingsPage> {
                 centerTitle: true,
                 backgroundColor: const Color(0xFFf1faee)
             ),
-
-            body: SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                        _buildSectionHeader('appearance'),
-                        _buildCard([
-                        _buildToggle(
-                            'dark mode',
-                            'switch to a darker color scheme',
-                            _darkMode,
-                            (val) {
-                                setState(() => _darkMode = val);
-                                _savePref('dark_mode', val);
-                },
-              ),
-            ]),
-            ]),
-            )
+        ),
 
             backgroundColor: const Color(0xFFf1faee),
             body: Padding(
@@ -104,8 +85,7 @@ class _SettingsPageState extends State <SettingsPage> {
                         ),
                     ],
                 ),
-            ),
-        );
+            );
     }
 }
 

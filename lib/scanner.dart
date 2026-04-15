@@ -104,9 +104,10 @@ class _GeminiImageProcessorState extends State<GeminiImageProcessor> {
         
         final prefs = await SharedPreferences.getInstance();
         final autoExpiration = prefs.getBool('auto_expiration') ?? false;
+        DateTime? expirationDate; 
         
-        if(autoExpiration) {
-          expriationDate = await_estimateExpirationDate(ingredient);
+        if (autoExpiration) {
+          expirationDate = await _estimateExpirationDate(ingredient);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('using AI estimate for "$ingredient"')),
         );
